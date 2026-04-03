@@ -9,8 +9,8 @@ const CONFIG = {
         { urls: 'stun:stun3.l.google.com:19302' },
         { urls: 'stun:stun4.l.google.com:19302' }
     ],
-    // 使用 Polite 信令服务器作为跨网络备用方案
-    SIGNALING_SERVER: 'wss://signaling.polite-ferret-97.telebit.io'
+    // 使用自建信令服务器
+    SIGNALING_SERVER: 'ws://124.71.76.131:8080'
 };
 
 // 简单的 ZIP 打包类
