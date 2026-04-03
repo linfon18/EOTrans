@@ -4,8 +4,13 @@ const CONFIG = {
     CHUNK_SIZE: 16384,
     ICE_SERVERS: [
         { urls: 'stun:stun.l.google.com:19302' },
-        { urls: 'stun:stun1.l.google.com:19302' }
-    ]
+        { urls: 'stun:stun1.l.google.com:19302' },
+        { urls: 'stun:stun2.l.google.com:19302' },
+        { urls: 'stun:stun3.l.google.com:19302' },
+        { urls: 'stun:stun4.l.google.com:19302' }
+    ],
+    // 使用 Polite 信令服务器作为跨网络备用方案
+    SIGNALING_SERVER: 'wss://signaling.polite-ferret-97.telebit.io'
 };
 
 // 简单的 ZIP 打包类
@@ -30,7 +35,7 @@ class SimpleZip {
     }
 }
 
-// 信令管理器
+// 信令管理器 - 支持 LocalStorage（同设备）和 WebSocket（跨网络）
 class SignalingManager {
     constructor() {
         this.code = null;
@@ -38,6 +43,10 @@ class SignalingManager {
         this.onMessage = null;
         this.broadcastChannel = null;
         this.storageKey = null;
+        this.ws = null;
+        this.useWebSocket = false;
+        this.wsConnected = false;
+        this.messageQueue = [];
     }
 
     static generateCode() {
@@ -53,11 +62,64 @@ class SignalingManager {
         } catch (e) {}
     }
 
+    // 初始化 WebSocket 连接（用于跨网络）
+    initWebSocket() {
+        try {
+            this.ws = new WebSocket(CONFIG.SIGNALING_SERVER);
+            
+            this.ws.onopen = () => {
+                console.log('WebSocket 已连接');
+                this.wsConnected = true;
+                // 加入房间
+                this.ws.send(JSON.stringify({
+                    type: 'join',
+                    code: this.code,
+                    role: this.role
+                }));
+                // 发送队列中的消息
+                while (this.messageQueue.length > 0) {
+                    const msg = this.messageQueue.shift();
+                    this.ws.send(JSON.stringify(msg));
+                }
+            };
+            
+            this.ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    // 只处理来自对方的消息
+                    const isFromOther = (this.role === 'sender' && data.role === 'receiver') ||
+                                       (this.role === 'receiver' && data.role === 'sender');
+                    if (isFromOther && this.onMessage) {
+                        console.log('WebSocket 收到消息:', data.type);
+                        this.onMessage(data);
+                    }
+                } catch (err) {}
+            };
+            
+            this.ws.onerror = (err) => {
+                console.log('WebSocket 错误:', err);
+            };
+            
+            this.ws.onclose = () => {
+                console.log('WebSocket 已关闭');
+                this.wsConnected = false;
+                // 3秒后重连
+                setTimeout(() => this.initWebSocket(), 3000);
+            };
+            
+            this.useWebSocket = true;
+        } catch (e) {
+            console.log('WebSocket 初始化失败，使用 LocalStorage');
+            this.useWebSocket = false;
+        }
+    }
+
     async initSender(code) {
         this.code = code;
         this.role = 'sender';
         this.storageKey = `eotrans_signal_${code}`;
         this.initBroadcastChannel(code);
+        this.initWebSocket();
         this.startPolling();
     }
 
@@ -66,6 +128,7 @@ class SignalingManager {
         this.role = 'receiver';
         this.storageKey = `eotrans_signal_${code}`;
         this.initBroadcastChannel(code);
+        this.initWebSocket();
         this.startPolling();
     }
 
@@ -82,6 +145,16 @@ class SignalingManager {
             };
         }
         
+        // 通过 WebSocket 发送（跨网络）
+        if (this.useWebSocket && this.ws) {
+            if (this.wsConnected) {
+                this.ws.send(JSON.stringify(message));
+            } else {
+                this.messageQueue.push(message);
+            }
+        }
+        
+        // 同时通过 LocalStorage 发送（同设备）
         const key = `${this.storageKey}_${message.type}`;
         localStorage.setItem(key, JSON.stringify(message));
         
@@ -134,6 +207,10 @@ class SignalingManager {
 
     cleanup() {
         if (this.broadcastChannel) this.broadcastChannel.close();
+        if (this.ws) {
+            this.ws.close();
+            this.ws = null;
+        }
         ['offer', 'answer', 'candidate'].forEach(type => {
             localStorage.removeItem(`${this.storageKey}_${type}`);
         });
