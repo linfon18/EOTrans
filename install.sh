@@ -41,15 +41,18 @@ install_deps() {
     # 升级 pip
     $PIP_CMD install --upgrade pip setuptools wheel -q
     
-    # 安装依赖
-    $PIP_CMD install -r requirements.txt
-    
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}✅ 依赖安装成功！${NC}"
+    # 安装依赖（如果 requirements.txt 存在且非空）
+    if [ -s requirements.txt ]; then
+        $PIP_CMD install -r requirements.txt
+        if [ $? -ne 0 ]; then
+            echo -e "${RED}❌ 依赖安装失败${NC}"
+            exit 1
+        fi
     else
-        echo -e "${RED}❌ 依赖安装失败${NC}"
-        exit 1
+        echo -e "${BLUE}没有需要安装的依赖${NC}"
     fi
+    
+    echo -e "${GREEN}✅ 依赖安装成功！${NC}"
 }
 
 # 构建静态文件
