@@ -196,7 +196,7 @@ function decompressString(str) {
 }
 
 // 复制到剪贴板
-function copyToClipboard() {
+function copyToClipboard(btn) {
     const textarea = document.getElementById('base64Output');
     if (!textarea) return;
     
@@ -204,12 +204,13 @@ function copyToClipboard() {
     document.execCommand('copy');
     
     // 显示提示
-    const btn = event.target;
-    const originalText = btn.textContent;
-    btn.textContent = '✅ 已复制！';
-    setTimeout(function() {
-        btn.textContent = originalText;
-    }, 2000);
+    if (btn) {
+        const originalText = btn.textContent;
+        btn.textContent = '✅ 已复制！';
+        setTimeout(function() {
+            btn.textContent = originalText;
+        }, 2000);
+    }
 }
 
 // 下载为文本文件
