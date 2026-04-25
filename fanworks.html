@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>同人二创 - 有兽焉粉丝档案馆</title>
+    <meta name="description" content="有兽焉同人二创合集，收录同人游戏、同人小说、同人企划等粉丝创作作品，链接至有兽档案馆wiki。">
+    <meta name="keywords" content="有兽焉同人,同人游戏,同人小说,粉丝创作,二创,四叶苜蓿">
+    <meta name="author" content="TraeSolo3">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="同人二创 - 有兽焉粉丝档案馆">
+    <meta property="og:description" content="有兽焉同人二创合集，收录同人游戏、同人小说、同人企划等粉丝创作作品，链接至有兽档案馆wiki。">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="有兽FANS2">
+    <meta property="og:locale" content="zh_CN">
+    <link rel="canonical" href="https://youshou.fans/fanworks.html">
+    <link rel="stylesheet" href="css/style.css?v=3" charset="utf-8">
+    <style>
+        /* 同人二创页面专用样式 */
+        .fanworks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .fanwork-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+        .fanwork-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent-gold);
+        }
+        .fanwork-card .card-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .fanwork-card .card-tags {
+            margin-bottom: 12px;
+        }
+        .fanwork-card .card-desc {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            flex: 1;
+            margin-bottom: 16px;
+        }
+        .fanwork-card .card-link {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-warm));
+            color: var(--sky-top);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition);
+        }
+        .fanwork-card .card-link:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .tag-game {
+            background: rgba(236, 72, 153, 0.2);
+            color: #f472b6;
+        }
+        .tag-novel {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+        .tag-project {
+            background: rgba(168, 85, 247, 0.2);
+            color: #c084fc;
+        }
+        .tag-source {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+        .source-section {
+            margin-top: 16px;
+            padding: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            backdrop-filter: blur(10px);
+        }
+        .source-section .card-name {
+            margin-bottom: 12px;
+        }
+        .source-section .card-desc {
+            margin-bottom: 16px;
+        }
+        .game-detail {
+            padding: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            backdrop-filter: blur(10px);
+            margin-bottom: 32px;
+        }
+        .game-detail .card-name {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+        .game-detail .card-desc {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景装饰 -->
+    <div class="clouds">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+    <div class="stars" id="stars"></div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">有兽FANS2</a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">首页</a><a href="characters.html" class="nav-link">角色图鉴</a><a href="chapters.html" class="nav-link">漫画章节</a><a href="anime.html" class="nav-link">动画信息</a><a href="worldbuilding.html" class="nav-link">世界观</a><a href="gallery.html" class="nav-link">精彩图集</a><a href="pixiu-brothers.html" class="nav-link">貔貅兄弟</a><a href="analysis.html" class="nav-link">剧情分析</a><a href="cp-guide.html" class="nav-link">CP攻略</a><a href="fanworks.html" class="nav-link active">同人二创</a><a href="index.html#about" class="nav-link">关于</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="菜单">&#9776;</button>
+        </div>
+    </nav>
+
+    <div class="main-content">
+
+        <!-- 同人二创 -->
+        <section class="section" style="padding-top:120px;">
+            <div class="section-header fade-in">
+                <h2 class="section-title">同人二创</h2>
+                <p class="section-subtitle">粉丝创作的同人游戏、小说与企划</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <!-- 同人游戏 -->
+            <div class="section-header fade-in" style="margin-top:40px; margin-bottom:24px;">
+                <h3 class="section-title" style="font-size:1.5rem;">同人游戏</h3>
+                <div class="section-divider"></div>
+            </div>
+            <div class="game-detail fade-in">
+                <h3 class="card-name">四叶苜蓿</h3>
+                <div class="card-tags">
+                    <span class="tag tag-game">同人RPG游戏</span>
+                    <span class="tag tag-type">Windows</span>
+                    <span class="tag tag-type">安卓</span>
+                </div>
+                <p class="card-desc">同人RPG游戏，支持Windows和安卓平台。主角为慕容雪川，可使用角色包括兔爷、四不像等。游戏场景涵盖困兽岛、彩云山脉、雪山等经典地点，并设有BOSS战（兔托尼、饕餮、战虎等）。B站有宣发视频。</p>
+                <a href="https://youshou.wiki/wiki/Fanmade:%E5%9B%9B%E5%8F%B6%E8%8B%9C%E8%93%BF" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+            </div>
+
+            <!-- 同人小说 -->
+            <div class="section-header fade-in" style="margin-top:40px; margin-bottom:24px;">
+                <h3 class="section-title" style="font-size:1.5rem;">同人小说</h3>
+                <div class="section-divider"></div>
+            </div>
+            <div class="fanworks-grid fade-in">
+                <div class="fanwork-card">
+                    <h3 class="card-name">绕骨柔</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">收录于《有兽焉同人文系列》。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E7%BB%95%E9%AA%A8%E6%9F%94" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">百解的故事</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">收录于《有兽焉同人文系列》第三卷，作者劲爆虾仁。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E7%99%BE%E8%A7%A3%E7%9A%84%E6%95%85%E4%BA%8B" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">镜花缘</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E9%95%9C%E8%8A%B1%E7%BC%98" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">你的名字</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E4%BD%A0%E7%9A%84%E5%90%8D%E5%AD%97" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">地平线</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E5%9C%B0%E5%B9%B3%E7%BA%BF" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">永序之轮</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E6%B0%B8%E5%BA%8F%E4%B9%8B%E8%BD%AE" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">遗忘者</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E9%81%97%E5%BF%98%E8%80%85" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">偷窥者</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E5%81%B7%E7%AA%A5%E8%80%85" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">飨宴</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E9%A3%A8%E5%AE%B4" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">红莲天诛</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E7%BA%A2%E8%8E%B2%E5%A4%A9%E8%AF%9B" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">槲寄生</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E6%A7%B2%E5%AF%84%E7%94%9F" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">凌雪梅花开</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E5%87%8C%E9%9B%AA%E6%A2%85%E8%8A%B1%E5%BC%80" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">琴声悠扬</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E7%90%B4%E5%A3%B0%E6%82%A0%E6%89%AC" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">孩子</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E5%AD%A9%E5%AD%90" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">东方焉平兽传</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                        <span class="tag tag-project">东方Project联动</span>
+                    </div>
+                    <p class="card-desc">同人小说（东方Project联动）。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E4%B8%9C%E6%96%B9%E7%84%89%E5%B9%B3%E5%85%BD%E4%BC%A0" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">兽焉传记</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-novel">同人小说</span>
+                    </div>
+                    <p class="card-desc">同人小说。</p>
+                    <a href="https://youshou.wiki/wiki/Fanmade:%E5%85%BD%E7%84%89%E4%BC%A0%E8%AE%B0" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+            </div>
+
+            <!-- 同人企划 -->
+            <div class="section-header fade-in" style="margin-top:40px; margin-bottom:24px;">
+                <h3 class="section-title" style="font-size:1.5rem;">同人企划</h3>
+                <div class="section-divider"></div>
+            </div>
+            <div class="fanworks-grid fade-in">
+                <div class="fanwork-card">
+                    <h3 class="card-name">青冥与叶</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-project">同人企划</span>
+                    </div>
+                    <p class="card-desc">同人企划。</p>
+                    <a href="https://youshou.wiki/wiki/%E6%9C%89%E5%85%BD%E6%A1%A3%E6%A1%88%E9%A6%86:%E9%9D%92%E5%86%A5" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+                <div class="fanwork-card">
+                    <h3 class="card-name">叶眼中的青冥</h3>
+                    <div class="card-tags">
+                        <span class="tag tag-project">同人企划</span>
+                    </div>
+                    <p class="card-desc">同人企划。</p>
+                    <a href="https://youshou.wiki/wiki/%E6%9C%89%E5%85%BD%E6%A1%A3%E6%A1%88%E9%A6%86:%E9%9D%92%E5%86%A5" class="card-link" target="_blank" rel="noopener noreferrer">查看详情</a>
+                </div>
+            </div>
+
+            <!-- 数据来源 -->
+            <div class="section-header fade-in" style="margin-top:40px; margin-bottom:24px;">
+                <h3 class="section-title" style="font-size:1.5rem;">数据来源</h3>
+                <div class="section-divider"></div>
+            </div>
+            <div class="source-section fade-in">
+                <h3 class="card-name">有兽档案馆 (youshou.wiki)</h3>
+                <div class="card-tags">
+                    <span class="tag tag-source">开源Wiki</span>
+                    <span class="tag tag-type">CC BY-SA 4.0</span>
+                </div>
+                <p class="card-desc">开源的有兽焉wiki，采用CC BY-SA 4.0协议。收录了大量同人创作、角色资料、剧情信息等丰富内容。</p>
+                <a href="https://youshou.wiki/" class="card-link" target="_blank" rel="noopener noreferrer">访问有兽档案馆</a>
+            </div>
+
+        </section>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>TraeSolo3深度整理</p>
+        <p>《有兽焉》版权归靴下猫腰子 / 非人哉工作室所有</p>
+    </footer>
+
+    <!-- 返回顶部 -->
+    <button class="back-to-top" id="backToTop" aria-label="返回顶部">&#8593;</button>
+
+    <script src="js/main.js?v=3" charset="utf-8"></script>
+</body>
+</html>
