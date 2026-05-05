@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - 页面走丢了 | 有兽FANS2</title>
+    <meta name="robots" content="noindex, follow">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        /* 背景层 */
+        .bg-layer {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+        }
+        .bg-layer img, .bg-layer video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        /* 遮罩 */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(10, 15, 30, 0.45);
+            z-index: 1;
+        }
+
+        /* 内容 */
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            max-width: 560px;
+        }
+
+        .code {
+            font-size: clamp(6rem, 20vw, 12rem);
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 40%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            filter: drop-shadow(0 4px 20px rgba(245, 158, 11, 0.3));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .msg {
+            font-size: 1.3rem;
+            margin: 1rem 0 0.5rem;
+            font-weight: 600;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .sub {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 2.5rem;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(245, 158, 11, 0.5);
+        }
+
+        .btn-ghost {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
+        }
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* 底部小字 */
+        .footer {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 0; right: 0;
+            text-align: center;
+            z-index: 2;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* 星星 */
+        .stars {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            width: 2px; height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-layer" id="bgLayer"></div>
+    <div class="overlay"></div>
+    <div class="stars" id="stars"></div>
+
+    <div class="content">
+        <div class="code">404</div>
+        <div class="msg">喵？页面走丢了...</div>
+        <div class="sub" id="subMsg"></div>
+        <div class="btn-group">
+            <a href="https://eo.mczlf.loft.games" class="btn btn-primary">🏠 返回首页</a>
+            <button class="btn btn-ghost" onclick="location.reload()">🔄 换个壁纸</button>
+        </div>
+    </div>
+
+    <!-- 有兽焉FANS2 eo.mczlf.loft.games https -->
+    <div class="footer" style="display:none;">有兽FANS2 · 有兽焉粉丝档案馆</div>
+
+    <script>
+    (function() {
+        // 壁纸池
+        var items = [
+            { type: 'img', src: 'images/bg/bg-1.jpg' },
+            { type: 'img', src: 'images/bg/bg-2.jpg' },
+            { type: 'img', src: 'images/bg/bg-3.jpg' },
+            { type: 'vid', src: 'images/bg/bg-4.mp4' },
+            { type: 'vid', src: 'images/bg/bg-5.mp4' }
+        ];
+        var idx = Math.floor(Math.random() * items.length);
+        var item = items[idx];
+        var bg = document.getElementById('bgLayer');
+
+        if (item.type === 'vid') {
+            var v = document.createElement('video');
+            v.src = item.src; v.autoplay = true; v.muted = true; v.loop = true; v.playsInline = true;
+            bg.appendChild(v);
+        } else {
+            var img = new Image();
+            img.onload = function() { bg.style.backgroundImage = 'url(' + item.src + ')'; bg.style.backgroundSize = 'cover'; bg.style.backgroundPosition = 'center'; };
+            img.src = item.src;
+        }
+
+        // 随机文案
+        var msgs = [
+            '这只神兽可能跑去鹿人店偷吃了，换个地方看看吧',
+            '天禄和辟邪又打起来了，页面被误伤了...',
+            '四不像跑丢了，页面也跟着迷路了',
+            '饕餮觉得这个页面很好吃，一口吞了',
+            '兔爷正在修理这个页面，请稍后再来',
+            '穷奇表示：这不是bug，这是feature',
+            '鹿人店的核桃说：迷路了就来找我呀',
+            '这只神兽正在午睡，等它醒了再说吧',
+            '二两和八斤把页面当毛线球玩坏了...',
+            '核桃做了碗面，吃完再找路吧',
+            '天禄说：作为弟弟我才不会迷路呢（已迷路）',
+            '辟邪表示：我是哥哥我来带路！（走反了）',
+            '四不像说这条路它走过...大概...可能...',
+            '翔太正在角落里偷偷吃零食，没空管页面',
+            '福仔也不知道路在哪，但它在摇尾巴',
+            '吐宝神鼬吐了点金币出来，但买不到回去的路',
+            '凤皇表示：这点小事，涅槃一次就好了',
+            '战虎说：迷路了就打一架，打完路就出来了',
+            '谛听说：我听到了...这个页面确实不存在',
+            '诸犍吼了一嗓子，页面被震碎了',
+            '令狐紫表示：这种小事不需要我出手',
+            '魔王松鼠正在囤坚果，没空理你',
+            '英招说：我飞得高看得远，但也没找到这个页面',
+            '棉桃在鹿人店门口等你回来呢',
+            '七十七正在数数，数到404就停了',
+            '刍狗说：万物皆有灵，页面也会有灵魂的...大概',
+            '小髅说：我都死了还能看到这个页面，你运气不错',
+            '金角和银角正在用这个页面打赌',
+            '盘湖在水里泡着呢，页面掉水里了',
+            '獬豸判定：此页面不存在，罪名成立',
+            '擎火把页面烧了...抱歉',
+            '巴陵君表示：这种小事不值一提',
+            '永夜说：黑暗中没有路，但也没关系',
+            '鹿人店的门永远为你敞开，先回去坐坐吧',
+            '天禄偷偷藏了块蛋糕在页面后面，结果找不到了',
+            '辟邪唱了首歌，页面被震跑了',
+            '核桃说：今天的晚饭有红烧页面...啊不是',
+            '兔爷从月亮上往下看，也没找到这个页面',
+            '二两说：喵？这里本来有东西的吗？',
+            '八斤说：喵！（翻译：我也不知道）'
+        ];
+        document.getElementById('subMsg').textContent = msgs[Math.floor(Math.random() * msgs.length)];
+
+        // 星星
+        var stars = document.getElementById('stars');
+        for (var i = 0; i < 50; i++) {
+            var s = document.createElement('div');
+            s.className = 'star';
+            s.style.left = Math.random() * 100 + '%';
+            s.style.top = Math.random() * 100 + '%';
+            s.style.animationDelay = Math.random() * 3 + 's';
+            s.style.animationDuration = (2 + Math.random() * 3) + 's';
+            stars.appendChild(s);
+        }
+    })();
+    </script>
+</body>
+</html>
